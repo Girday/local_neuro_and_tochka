@@ -1,6 +1,6 @@
-# Technical Specification (TZ)  
-## Microservice: **Ingestion Service**  
-### Project: Orion Soft Internal AI Assistant — *Visior*
+# Техническая спецификация (ТЗ)  
+## Микросервис: **Ingestion Service**  
+### Проект: Orion Soft Internal AI Assistant — *Visior*
 
 ---
 
@@ -27,7 +27,7 @@
 
 ---
 
-# 2. Scope / Зона ответственности
+# 2. Зона ответственности
 
 ## 2.1 Входит в ответственность
 
@@ -65,7 +65,7 @@
 
 ---
 
-# 3. Архитектура (High-Level)
+# 3. Архитектура (высокий уровень)
 
 ```text
 API Gateway → documents_to_ingest (queue)
@@ -91,7 +91,7 @@ API Gateway → documents_to_ingest (queue)
 
 ---
 
-# 4. External Interfaces
+# 4. Внешние интерфейсы
 
 ## 4.1 Очередь входящих задач
 
@@ -145,9 +145,9 @@ API Gateway → documents_to_ingest (queue)
 
 ---
 
-# 5. Pipeline (Detailed)
+# 5. Пайплайн (подробно)
 
-## 5.1 Step 1 — Fetch Document
+## 5.1 Шаг 1 — Получение документа
 
 1. Получить файл из S3/MinIO.  
 2. Проверить MIME type.  
@@ -158,7 +158,7 @@ API Gateway → documents_to_ingest (queue)
 
 ---
 
-## 5.2 Step 2 — Parse Document
+## 5.2 Шаг 2 — Парсинг документа
 
 Поддерживаемые форматы:
 
@@ -195,7 +195,7 @@ API Gateway → documents_to_ingest (queue)
 
 ---
 
-## 5.3 Step 3 — Sectionizer
+## 5.3 Шаг 3 — Sectionizer
 
 Цель: определить логическую структуру документа.
 
@@ -220,7 +220,7 @@ API Gateway → documents_to_ingest (queue)
 
 ---
 
-## 5.4 Step 4 — Chunking
+## 5.4 Шаг 4 — Chunking
 
 Chunking — важнейший этап RAG.
 
@@ -247,7 +247,7 @@ Chunking — важнейший этап RAG.
 
 ---
 
-## 5.5 Step 5 — Summarization (LLM)
+## 5.5 Шаг 5 — Summarization (LLM)
 
 Для каждой секции генерируется summary:
 
@@ -269,7 +269,7 @@ Chunking — важнейший этап RAG.
 
 ---
 
-## 5.6 Step 6 — Embeddings
+## 5.6 Шаг 6 — Embeddings
 
 Три уровня:
 
@@ -295,7 +295,7 @@ chunk.text
 
 ---
 
-## 5.7 Step 7 — Indexing
+## 5.7 Шаг 7 — Indexing
 
 ### Vector DB
 
@@ -348,7 +348,7 @@ chunk.text
 - дедубликация задач по job_id,  
 - partial rollback при неуспехе.
 
-## 6.3 Observability
+## 6.3 Наблюдаемость
 
 Метрики:
 
@@ -385,7 +385,7 @@ chunk.text
 
 # 8. Тестирование
 
-## Unit tests:
+## Модульные тесты:
 
 - парсер,
 - sectionizer,
@@ -393,12 +393,12 @@ chunk.text
 - summarizer mock,
 - embeddings mock.
 
-## Integration tests:
+## Интеграционные тесты:
 
 - полный ingestion (mock LLM),
 - взаимодействие с Vector DB и Metadata DB.
 
-## Stress tests:
+## Нагрузочные тесты:
 
 - ingestion 100 документов подряд,
 - искажение PDF, пустые страницы, шифрованные PDF.
@@ -414,4 +414,4 @@ chunk.text
 
 ---
 
-# END OF DOCUMENT
+# КОНЕЦ ДОКУМЕНТА
