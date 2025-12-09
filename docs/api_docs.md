@@ -296,7 +296,7 @@ Request:
   "trace_id": "abc-def-123"
 }
 ```
-Response (пример блокировки):
+Response (пример block):
 ```json
 {
   "status": "blocked",
@@ -305,7 +305,7 @@ Response (пример блокировки):
   "transformed_query": null
 }
 ```
-Response (пример преобразования):
+Response (пример transform):
 ```json
 {
   "status": "transformed",
@@ -339,7 +339,7 @@ Request:
   "trace_id": "abc-def-123"
 }
 ```
-Response (разрешение):
+Response (allow):
 ```json
 {
   "status": "allowed",
@@ -347,7 +347,7 @@ Response (разрешение):
   "reason": null
 }
 ```
-Response (санитизация):
+Response (sanitize):
 ```json
 {
   "status": "sanitized",
