@@ -1,6 +1,6 @@
-# Technical Specification (TZ)  
-## Microservice: **MCP Tools Proxy**  
-### Project: Orion Soft Internal AI Assistant — *Visior*
+# Техническая спецификация (ТЗ)  
+## Микросервис: **MCP Tools Proxy**  
+### Проект: Orion Soft Internal AI Assistant — *Visior*
 
 ---
 
@@ -24,7 +24,7 @@
 
 ---
 
-# 0. Implementation Notes
+# 0. Заметки по реализации
 
 - Скелет сервиса: `services/mcp_tools_proxy` (FastAPI).
 - Публичные ручки: `/internal/mcp/execute`, `/health`.
@@ -35,7 +35,7 @@
 
 ---
 
-# 2. Область ответственности
+# 2. Зона ответственности
 
 ## 2.1 Входит в ответственность
 
@@ -78,7 +78,7 @@
 
 ---
 
-# 3. Архитектура (High-level)
+# 3. Архитектура (высокий уровень)
 
 ```text
 LLM Service 
@@ -124,7 +124,7 @@ MCP Tools Proxy
 
 ---
 
-# 5. Интерфейсы (Internal API для LLM Service)
+# 5. Интерфейсы (внутренний API для LLM Service)
 
 ## 5.1 `POST /internal/mcp/execute`
 
@@ -388,7 +388,7 @@ code: RATE_LIMIT_EXCEEDED
 
 # 11. Тестирование
 
-## 11.1 Unit Tests
+## 11.1 Модульные тесты
 
 - права доступа,
 - корректность чтения секций,
@@ -396,13 +396,13 @@ code: RATE_LIMIT_EXCEEDED
 - rate limiting,
 - обработка ошибок.
 
-## 11.2 Integration Tests
+## 11.2 Интеграционные тесты
 
 - взаимодействие с Document Store,
 - поиск по документу,
 - корректность работы при повреждённых данных.
 
-## 11.3 Security Tests
+## 11.3 Тесты безопасности
 
 - попытки чтения чужих tenants,
 - попытки чтения всего документа через page-iteration,
@@ -419,4 +419,4 @@ code: RATE_LIMIT_EXCEEDED
 
 ---
 
-# END OF DOCUMENT
+# КОНЕЦ ДОКУМЕНТА
