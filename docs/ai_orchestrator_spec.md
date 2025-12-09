@@ -1,6 +1,8 @@
-# Technical Specification (TZ)
-## Microservice: **AI Orchestrator**
-### Project: Orion Soft Internal AI Assistant — *Visior*
+# Техническая спецификация (ТЗ)
+
+## Микросервис: **AI Orchestrator**
+
+### Проект: Orion Soft Internal AI Assistant — *Visior*
 
 ---
 
@@ -14,12 +16,12 @@ AI Orchestrator — центральный координационный сло
 
 ## 2.1 Входит в ответственность
 
-1. **Роутинг режимов**: выбор между RAG, MCP-assisted, Q&A по шаблонам, режимом "FAQ" либо эскалацией к человеку.
+1. **Маршрутизация режимов**: выбор между RAG, MCP-assisted, Q&A по шаблонам, режимом "FAQ" либо эскалацией к человеку.
 2. **Управление пайплайном**: последовательный вызов Retrieval Service, LLM Service, Safety Service (output), формирование ответа.
-3. **Context Builder orchestration**: запрос чанков у Retrieval, дедупликация, подбор по токен-бюджету, подготовка контекста для LLM.
-4. **Tool policy**: включение/выключение MCP инструментов в зависимости от роли пользователя, уровня доверия, tenant-политик.
+3. **Оркестрация Context Builder**: запрос чанков у Retrieval, дедупликация, подбор по токен-бюджету, подготовка контекста для LLM.
+4. **Политика инструментов**: включение/выключение MCP инструментов в зависимости от роли пользователя, уровня доверия, tenant-политик.
 5. **Метрики и логирование**: сбор trace_id, latency per stage, количество tool steps, статистика safety блокировок.
-6. **Fallback сценарии**: повторный запрос к Retrieval, смена модели, деградация на короткий ответ в случае таймаутов.
+6. **Резервные сценарии**: повторный запрос к Retrieval, смена модели, деградация на короткий ответ в случае таймаутов.
 
 ## 2.2 Не входит в ответственность
 
@@ -30,7 +32,7 @@ AI Orchestrator — центральный координационный сло
 
 ---
 
-# 3. Архитектура (High-level)
+# 3. Архитектура (высокий уровень)
 
 ```
 Client → API Gateway → AI Orchestrator
@@ -138,7 +140,7 @@ Client → API Gateway → AI Orchestrator
 
 ---
 
-# 8. Error handling & Fallbacks
+# 8. Обработка ошибок и резервные сценарии
 
 - **Retrieval timeout** → возврат `ERROR_RETRIEVAL_TIMEOUT`, попытка снова 1 раз.
 - **LLM runtime error** → переключение на альтернативную модель (если конфигурирована) или возврат `LLM_RUNTIME_ERROR`.
@@ -163,22 +165,25 @@ Client → API Gateway → AI Orchestrator
 
 # 10. Тестирование
 
-## Unit
+## Модульное
+
 - Построение payload для LLM.
 - Обработка ответа Retrieval (селекция чанков).
 - Правила fallback по конфигурации.
 
-## Integration
+## Интеграционное
+
 - e2e сценарий с mock Retrieval + LLM + Safety.
 - Проверка таймаутов и повторов.
 
-## Load / Chaos
+## Нагрузочное / Хаос
+
 - Тесты с высоким количеством параллельных запросов.
 - Инжекция ошибок (LLM timeout, Safety error).
 
 ---
 
-# 11. Security & Governance
+# 11. Безопасность и управление
 
 - Все запросы подписаны service token + mutual TLS (в будущем).
 - Tenant isolation: сверка `tenant_id` на каждом шаге.
