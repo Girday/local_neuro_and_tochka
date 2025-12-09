@@ -1,6 +1,6 @@
-# Technical Specification (TZ)
-## Microservice: **Document Service (Metadata & Access API)**
-### Project: Orion Soft Internal AI Assistant — *Visior*
+# Техническая спецификация (ТЗ)
+## Микросервис: **Document Service (Metadata & Access API)**
+### Проект: Orion Soft Internal AI Assistant — *Visior*
 
 ---
 
@@ -148,7 +148,7 @@ Batch-обновление статусов ingestion.
 
 # 8. Конфигурация (ENV)
 
-| Переменная                     | Описание                                  |
+| Переменная                     | Назначение                                |
 |--------------------------------|-------------------------------------------|
 | `DOC_DB_DSN`                   | DSN PostgreSQL                            |
 | `DOC_CACHE_URL`                | Redis для кэша                            |
@@ -162,21 +162,21 @@ Batch-обновление статусов ingestion.
 
 # 9. Тестирование
 
-## Unit
+## Модульное
 - Проверка фильтров и построения SQL.
 - Проверка правил tenant isolation.
 
-## Integration
+## Интеграционное
 - Тесты с PostgreSQL/Redis (docker-compose).
 - Поток Ingestion → Document Service → Retrieval.
 
-## Performance
+## Нагрузочное
 - Нагрузочный тест списка документов (пагинация с фильтрами).
 - Stress test на массовое обновление статусов.
 
 ---
 
-# 10. Observability
+# 10. Наблюдаемость
 
 Метрики: `document_status_total`, `document_list_latency_ms`, `document_section_hits_total`.
 
