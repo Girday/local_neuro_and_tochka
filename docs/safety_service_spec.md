@@ -25,6 +25,16 @@
 
 ---
 
+# 0. Implementation Notes
+
+- Код скелета расположен в `services/safety_service`.
+- Экспонирует `/health`, `/internal/safety/input-check`, `/internal/safety/output-check` (FastAPI).
+- Конфиг через `SAFETY_SERVICE_*` переменные окружения (`config.py`), включая режим политики (`strict/balanced/relaxed`) и блоклист.
+- Логика safety реализована в `core/evaluator.py`: простые эвристики (блоклисты, prompt injection markers, PII regex) с режимами `blocked/transformed/allowed`.
+- Автотесты находятся в `services/safety_service/tests` и покрывают ядро и HTTP-endpoints.
+
+---
+
 # 2. Scope / Зона ответственности
 
 ## 2.1 Входит в ответственность

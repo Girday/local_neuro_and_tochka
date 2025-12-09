@@ -158,7 +158,17 @@ API Gateway вызывает следующие микросервисы:
 Все вызовы должны содержать:
 - `X-Request-ID` (trace_id)  
 - `X-Tenant-ID`  
-- `Authorization`  
+
+---
+
+# 6. Implementation Notes
+
+Скелет микросервиса расположен в `services/api_gateway` и разворачивается как FastAPI-приложение.
+
+- точка входа: `api_gateway.main:app`  
+- конфиг через `API_GATEWAY_*` переменные (`config.py`)
+- внешние вызовы оформлены в клиентах (`api_gateway/clients/*`) и автоматически добавляют `X-Request-ID`, `X-Tenant-ID`, `X-User-ID`
+- включён базовый rate limiting per tenant/user и mock-режим (`API_GATEWAY_MOCK_MODE=true`) для локальной разработки без доступных бэкендов
 
 ---
 
