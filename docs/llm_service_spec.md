@@ -1,6 +1,6 @@
-# Technical Specification (TZ)  
-## Microservice: **LLM Service (RAG + MCP Orchestration Layer)**  
-### Project: Orion Soft Internal AI Assistant — *Visior*
+# Техническая спецификация (ТЗ)  
+## Микросервис: **LLM Service (RAG + MCP Orchestration Layer)**  
+### Проект: Orion Soft Internal AI Assistant — *Visior*
 
 ---
 
@@ -19,7 +19,7 @@ LLM Service скрывает сложность взаимодействия с 
 
 ---
 
-# 2. Scope / Зона ответственности
+# 2. Зона ответственности
 
 ## 2.1 Входит в ответственность
 
@@ -65,7 +65,7 @@ LLM Service скрывает сложность взаимодействия с 
 
 ---
 
-# 3. Архитектура (High-level)
+# 3. Архитектура (высокий уровень)
 
 ```text
 AI Orchestrator
@@ -83,7 +83,7 @@ LLM Service — stateless.
 
 ---
 
-# 4. External API (Internal Interface)
+# 4. Внешний API (внутренний интерфейс)
 
 ## 4.1 Основной эндпоинт
 
@@ -146,9 +146,9 @@ LLM Service — stateless.
 
 ---
 
-# 5. Core Logic
+# 5. Основная логика
 
-## 5.1 Prompt Structure
+## 5.1 Структура промпта
 
 В зависимости от режима RAG формируется такой prompt:
 
@@ -177,7 +177,7 @@ Return tool calls in JSON format:
 
 ---
 
-# 6. Tool-Call Orchestration (MCP loop)
+# 6. Оркестрация tool-call (MCP loop)
 
 LLM Service управляет циклом reasoning:
 
@@ -213,7 +213,7 @@ LLM generates final answer.
 
 ---
 
-# 7. Token Management
+# 7. Управление токенами
 
 LLM Service должен:
 
@@ -231,7 +231,7 @@ LLM Service должен:
 
 ---
 
-# 8. Interaction With LLM Runtime
+# 8. Взаимодействие с LLM Runtime
 
 LLM Runtime может быть:
 
@@ -262,7 +262,7 @@ LLM Service должен поддерживать:
 
 ---
 
-# 9. Error Handling
+# 9. Обработка ошибок
 
 ## 9.1 Ошибки модели
 
@@ -314,9 +314,9 @@ assistant:
 
 ---
 
-# 10. Non-functional Requirements
+# 10. Нефункциональные требования
 
-## 10.1 Performance
+## 10.1 Производительность
 
 Цель (p95):
 
@@ -324,18 +324,18 @@ assistant:
 - весь MCP sequence ≤ 2–3 секунд,  
 - overhead LLM Service ≤ 30 ms.
 
-## 10.2 Scalability
+## 10.2 Масштабируемость
 
 - Stateless, горизонтальное масштабирование,  
 - Поддержка batch/token caching (опционально для vLLM).  
 
-## 10.3 Reliability
+## 10.3 Надёжность
 
 - retries = 1 при transient errors,  
 - circuit breaker к LLM runtime,  
 - health-check endpoint.
 
-## 10.4 Observability
+## 10.4 Наблюдаемость
 
 Метрики:
 
@@ -354,7 +354,7 @@ assistant:
 
 ---
 
-# 11. Config
+# 11. Конфигурация
 
 ## ENV
 
@@ -369,21 +369,21 @@ assistant:
 
 ---
 
-# 12. Testing
+# 12. Тестирование
 
-## Unit tests:
+## Модульные тесты:
 
 - prompt builder,  
 - MCP call parsing,  
 - token budget logic.  
 
-## Integration tests:
+## Интеграционные тесты:
 
 - LLM runtime mock,  
 - MCP Proxy mock,  
 - multi-step chain validations.  
 
-## E2E tests:
+## E2E тесты:
 
 - full RAG → LLM → MCP → completion pipeline.  
 
@@ -398,4 +398,4 @@ assistant:
 
 ---
 
-# END OF DOCUMENT
+# КОНЕЦ ДОКУМЕНТА
