@@ -2,17 +2,17 @@
 
 ---
 
-## 0. Conventions
+## 0. Соглашения
 
-- All requests are JSON over HTTPS, unless указано иное.
-- Charset: UTF‑8.
-- Versioning: `/api/v1/...` для public API.
-- Correlation:
+- Все запросы в формате JSON через HTTPS, если не указано иное.
+- Кодировка: UTF‑8.
+- Версионирование: `/api/v1/...` для public API.
+- Взаимосвязь:
   - `X-Request-ID` — обязательный trace ID от gateway.
-- Auth:
+- Аутентификация:
   - `Authorization: Bearer <token>` (или другой корпоративный механизм).
 
-### 0.1 Common Error Format
+### 0.1 Общий формат ошибок
 ```json
 {
   "error": {
@@ -24,12 +24,12 @@
   },
   "trace_id": "uuid-or-trace"
 }
-````
+```
 ---
 
 # 1. Public API — Frontend ↔ Backend (API Gateway)
 
-Все эти эндпоинты видит фронт. Внутри API Gateway может звать другие сервисы, но фронту это не важно.
+Все эти endpoint'ы видит frontend. Внутри API Gateway может вызывать другие сервисы, но для frontend'а это не важно.
 
 Базовый префикс: `/api/v1`
 
@@ -37,7 +37,7 @@
 
 ## 1.1 Authentication & Session
 
-> Вариант: если аутентификация делается не через этот backend, этот раздел можно опустить / адаптировать.
+> Примечание: если аутентификация выполняется не через этот backend, данный раздел можно опустить или адаптировать.
 
 ### 1.1.1 `GET /api/v1/auth/me`
 
@@ -45,7 +45,7 @@
 
 Headers:
 
-- Authorization: Bearer <token>
+- Authorization: Bearer
 
 Response 200:
 ```json
@@ -63,12 +63,12 @@ Response 200:
 
 ### 1.2.1 `POST /api/v1/assistant/query`
 
-Основной эндпоинт для фронта: задать вопрос ассистенту.
+Основной endpoint для frontend'а: задать вопрос ассистенту.
 
 Headers:
 
-- Authorization: Bearer <token>
-- X-Request-ID: <uuid> (опционально, если фронт умеет)
+- Authorization: Bearer
+- X-Request-ID: (опционально, если frontend поддерживает)
 
 Request body:
 ```json
@@ -120,10 +120,10 @@ Response 200:
 
 Fields:
 
-- file: бинарник PDF/Docx.
-- product (optional): строка, напр. "Orion X".
-- version (optional): напр. "1.2".
-- tags (optional): JSON‑строка со списком тегов.
+- file: бинарный файл PDF/Docx.
+- product (опционально): строка, например "Orion X".
+- version (опционально): например "1.2".
+- tags (опционально): JSON-строка со списком тегов.
 
 Response 202:
 ```json
@@ -136,9 +136,9 @@ Response 202:
 
 ### 1.3.2 `GET /api/v1/documents`
 
-Список документов пользователя/тенанта.
+Список документов пользователя/tenant'а.
 
-Query params (optional):
+Query params (опционально):
 
 - status — фильтр по статусу (uploaded, processing, indexed, failed).
 - product, tag, search — фильтры/поиск.
@@ -200,7 +200,7 @@ Response 200:
 
 ### 1.3.4 `GET /api/v1/documents/{doc_id}/status`
 
-Упрощённый эндпоинт для polling статуса ingestion.
+Упрощённый endpoint для polling статуса ingestion.
 
 Response 200:
 ```json
@@ -216,7 +216,7 @@ Response 200:
 
 ### 1.4.1 `GET /api/v1/health`
 
-Простой healthcheck для фронта/мониторинга.
+Простой healthcheck для frontend'а/мониторинга.
 
 Response 200:
 ```json
@@ -228,10 +228,10 @@ Response 200:
 ```
 ---
 
-# 2. Internal APIs — Inter‑Service Calls
+# 2. Internal APIs — межсервисные вызовы
 
-Все internal‑эндпоинты можно держать под префиксом /internal/...
-Они не должны быть доступны извне (только через private network / service‑mesh).
+Все internal endpoint'ы можно держать под префиксом /internal/...
+Они не должны быть доступны извне (только через private network / service-mesh).
 
 ---
 
@@ -305,7 +305,7 @@ Response (пример блокировки):
   "transformed_query": null
 }
 ```
-Response (пример transform):
+Response (пример преобразования):
 ```json
 {
   "status": "transformed",
@@ -339,7 +339,7 @@ Request:
   "trace_id": "abc-def-123"
 }
 ```
-Response (allow):
+Response (разрешение):
 ```json
 {
   "status": "allowed",
@@ -347,7 +347,7 @@ Response (allow):
   "reason": null
 }
 ```
-Response (sanitize):
+Response (санитизация):
 ```json
 {
   "status": "sanitized",
@@ -500,7 +500,7 @@ Response:
 ```
 ---
 
-## 2.6 Async APIs — Events & Queues
+## 2.6 Async APIs — события и очереди
 
 ### 2.6.1 Queue: documents_to_ingest
 ```json
@@ -535,9 +535,8 @@ Response:
 ```
 ---
 
-## 3. Summary
+## 3. Резюме
 
-- Part 1 (Public API): фронт ↔ backend через /api/v1/...
-- Part 2 (Internal API): контракты между AI Orchestrator, Safety, Retrieval, LLM и Ingestion.
-- Async модель: ingestion и события через брокер сообщений.
-
+- Часть 1 (Public API): frontend ↔ backend через /api/v1/...
+- Часть 2 (Internal API): контракты между AI Orchestrator, Safety, Retrieval, LLM и Ingestion.
+- Асинхронная модель: ingestion и события через брокер сообщений.
