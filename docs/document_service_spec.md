@@ -30,7 +30,7 @@ Document Service предоставляет API для управления ме
 
 ---
 
-# 3. Высокоуровневая архитектура
+# 3. Архитектура (высокий уровень)
 
 ```
 API Gateway / MCP / Retrieval → Document Service → PostgreSQL (metadata) + Object storage references
